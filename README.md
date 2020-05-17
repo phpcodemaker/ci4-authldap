@@ -1,18 +1,16 @@
 # AuthLdap
 CodeIgniter[4.0.3] LDAP Authentication
 
+``` composer require phpcodemaker/ci4-authldap:1.0 ```
+
 Thanks to the Forumsys Site to make LDAP connection testing<br/>
 https://www.forumsys.com/tutorials/integration-how-to/ldap/online-ldap-test-server
 
 To check your LDAP connection in local, Execute the below command in Terminal<br/>
 /var/www/html$ ldapsearch -W -h ldap.forumsys.com -D "uid=riemann,dc=example,dc=com" -b "dc=example,dc=com"
 
-[Test Credentials]<br/>
-<b>username</b> : riemann<br/>
-  <b>password</b> : password<br/>
 
-
-Create your Own User Controller as follows,
+Create your Own User Controller for login and logout as follows,
 ```
 <?php
 namespace App\Controllers;
@@ -88,3 +86,12 @@ class User extends BaseController
     {
       //implement your own stuffs
     }
+```
+
+[login]<br/>
+<b>login</b> : http://localhost/user/login<br/>
+<b>logout</b> : http://localhost/user/logout
+
+[Test Credentials]<br/>
+<b>username</b> : riemann<br/>
+<b>password</b> : password<br/>
