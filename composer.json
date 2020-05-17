@@ -2,11 +2,15 @@
   "name": "phpcodemaker/ci4-authldap",
   "description": "CodeIgniter4 Authenticate User using LDAP protocol",
   "minimum-stability": "stable",
-  "license": "proprietary",
+  "license": "MIT",
   "authors": [
     {
       "name": "Karthikeyan C",
       "email": "karthikn.mca@gmail.com"
     }
-  ]
+  ],
+  "require": {
+    "php": ">=7.2",
+    "codeigniter4/codeigniter4": ">=4.0"
+  }
 }
