@@ -1,0 +1,12 @@
+{
+  "name": "karthiknphp/CodeIgniter4-AuthLdap",
+  "description": "CodeIgniter4 Authenticate User using LDAP protocol",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Karthikeyan C",
+      "email": "karthikn.mca@gmail.com"
+    }
+  ]
+}
