@@ -10,7 +10,6 @@
     }
   ],
   "require": {
-    "php": ">=7.2",
-    "codeigniter4/codeigniter4": ">=4.0"
+    "php": ">=7.2"
   }
 }
