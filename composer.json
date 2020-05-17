@@ -1,5 +1,5 @@
 {
-  "name": "karthiknphp/CodeIgniter4-AuthLdap",
+  "name": "phpcodemaker/CodeIgniter4-AuthLdap",
   "description": "CodeIgniter4 Authenticate User using LDAP protocol",
   "minimum-stability": "stable",
   "license": "proprietary",
