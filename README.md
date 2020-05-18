@@ -50,7 +50,6 @@ class User extends BaseController
      */
     public function __construct()
     {
-        $this->authLdap = new AuthLdap();
         /**
          * If Already declared Session in BaseController,
          * then comment the below declaration
@@ -68,6 +67,7 @@ class User extends BaseController
                 && null !== $this->request->getPost('password')
 	            && is_object($this->authLdap)
                 && method_exists($this->authLdap, 'authenticate')) {
+            $this->authLdap = new AuthLdap();
             $authenticatedUserData  =   $this->authLdap->authenticate(
                                             trim($this->request->getPost('username')),
                                             trim($this->request->getPost('password'))
