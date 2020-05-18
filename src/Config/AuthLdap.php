@@ -10,7 +10,7 @@ class AuthLdap extends BaseConfig
 {
     /**
      * LDAP configured Domain
-     * @var string
+     * @var string $ldapDomain
      */
     private $ldapDomain = 'ldap.forumsys.com';
 
@@ -48,6 +48,19 @@ class AuthLdap extends BaseConfig
      */
     private $ldapGroupAttribute = 'ou';
 
+	/**
+	 * LDAP search Attribute
+	 * @var string[] $ldapSearchAttribute
+	 */
+	private $ldapSearchAttribute = ['dn', 'cn'];
+
+	/**
+	 * An identifier to retrieve member of groups
+	 * from LDAP defined structure
+	 * @var string $ldapMemberOfGroupsIdentifier (uniquemember/memberof)
+	 */
+	private $ldapMemberOfGroupsIdentifier = 'uniquemember';
+
     /**
      * Groups will be fetched at runtime
      * @var array $groups
@@ -57,13 +70,13 @@ class AuthLdap extends BaseConfig
     /**
      * user id group`ed by group/role(s)
      *
-     * @var array
+     * @var array $groupByUsers
      */
     private $groupByUsers = [];
 
     /**
      * ['curie' => 'chemists']
-     * @var array
+     * @var array $userNameAndGroup
      */
     private $userNameAndGroup = [];
 
@@ -81,10 +94,30 @@ class AuthLdap extends BaseConfig
      * @return string
      * @author Karthikeyan C <karthikn.mca@gmail.com>
      */
-    public function getBaseDN(): string
+    public function getLdapBaseDN(): string
     {
         return $this->baseDn;
     }
+
+	/**
+	 * Get Group Attribute
+	 * @return string
+	 * @author Karthikeyan C <karthikn.mca@gmail.com>
+	 */
+	public function getLdapGroupAttribute(): string
+	{
+		return $this->ldapGroupAttribute;
+	}
+
+	/**
+	 * Get User Attribute
+	 * @return string
+	 * @author Karthikeyan C <karthikn.mca@gmail.com>
+	 */
+	public function getLdapUserAttribute(): string
+	{
+		return $this->ldapUserAttribute;
+	}
 
     /**
      * Construct ldap url and return
@@ -99,6 +132,26 @@ class AuthLdap extends BaseConfig
         );
     }
 
+	/**
+	 * get Search Attribute
+	 * @return array
+	 * @author Karthikeyan C <karthikn.mca@gmail.com>
+	 */
+    public function getLdapSearchAttribute(): array
+	{
+		return $this->ldapSearchAttribute;
+	}
+
+	/**
+	 * get Member of Groups Identifier
+	 * @return string
+	 * @author Karthikeyan C <karthikn.mca@gmail.com>
+	 */
+	public function getLdapMemberOfGroupsIdentifier(): string
+	{
+		return $this->ldapMemberOfGroupsIdentifier;
+	}
+
     /**
      * Set Group
      * @param string $groupName
@@ -107,7 +160,8 @@ class AuthLdap extends BaseConfig
      */
     public function setGroup(string $groupName, array $users): void
     {
-        if (!in_array($groupName, $this->groups, true)) {
+        if (!in_array($groupName, $this->groups, true))
+        {
             array_push($this->groups, $groupName);
             $this->groupByUsers[$groupName] = $users;
         }
@@ -120,7 +174,7 @@ class AuthLdap extends BaseConfig
      */
     public function setUserAndGroup(string $userName, string $groupName): void
     {
-        $this->userNameAndGroup[$userName] = $groupName;
+			$this->userNameAndGroup[$userName][] = $groupName;
     }
 
     /**
@@ -146,31 +200,11 @@ class AuthLdap extends BaseConfig
     /**
      * get Role by Username
      * @param $userName
-     * @return string|null
+     * @return array
      * @author Karthikeyan C <karthikn.mca@gmail.com>
      */
-    public function getRoleByUserName($userName): ?string
+    public function getRoleByUserName($userName): array
     {
-        return $this->userNameAndGroup[$userName] ?? null;
-    }
-
-    /**
-     * Get Group Attribute
-     * @return string
-     * @author Karthikeyan C <karthikn.mca@gmail.com>
-     */
-    public function getGroupAttribute(): string
-    {
-        return $this->ldapGroupAttribute;
-    }
-
-    /**
-     * Get User Attribute
-     * @return string
-     * @author Karthikeyan C <karthikn.mca@gmail.com>
-     */
-    public function getUserAttribute(): string
-    {
-        return $this->ldapUserAttribute;
+        return $this->userNameAndGroup[$userName] ?? [];
     }
 }
