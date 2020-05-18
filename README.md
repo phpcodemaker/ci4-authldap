@@ -64,16 +64,28 @@ class User extends BaseController
     public function login()
 	{
 	    if (null !== $this->request->getPost('username')
-                && null !== $this->request->getPost('password')
-	            && is_object($this->authLdap)
-                && method_exists($this->authLdap, 'authenticate')) {
+                && null !== $this->request->getPost('password'))
+        {
             $this->authLdap = new AuthLdap();
-            $authenticatedUserData  =   $this->authLdap->authenticate(
-                                            trim($this->request->getPost('username')),
-                                            trim($this->request->getPost('password'))
-                                        );
-            $this->session->set($authenticatedUserData);
-            return redirect()->to('/user/dashboard');
+            if (is_object($this->authLdap)
+                    && method_exists($this->authLdap, 'authenticate'))
+            {
+                $authenticatedUserData  =   $this->authLdap->authenticate(
+                                                trim($this->request->getPost('username')),
+                                                trim($this->request->getPost('password'))
+                                            );
+                if (!empty($authenticatedUserData))
+                {
+                    $this->session->set($authenticatedUserData);
+                    return redirect()->to('/user/dashboard');
+                }
+                else {
+                    // report login failure
+                }
+            }
+            else {
+                //report about ldap error
+            }
         }
 		return view('user/login');
 	}
